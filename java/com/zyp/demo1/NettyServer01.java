@@ -5,6 +5,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
@@ -49,5 +50,6 @@ public class NettyServer01 {
                 System.out.println("服务端启动中");
             }
         });
+        serverBootstrap.attr(AttributeKey.newInstance("serverName"),"nettyServer");
     }
 }
