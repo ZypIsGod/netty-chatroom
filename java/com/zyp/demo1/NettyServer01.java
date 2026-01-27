@@ -1,5 +1,6 @@
 package com.zyp.demo1;
 
+import com.zyp.demo1.handler.FirstServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -26,6 +27,7 @@ public class NettyServer01 {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
+                        nioSocketChannel.pipeline().addLast(new FirstServerHandler());
 
                     }
                 });

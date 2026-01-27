@@ -1,5 +1,6 @@
 package com.zyp.demo1;
 
+import com.zyp.demo1.handler.FirstCilentHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -27,10 +28,10 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
-
+                        socketChannel.pipeline().addLast(new FirstCilentHandler());
                     }
                 });
-        connect(bootstrap, "1", 80, MAX_RETRY);
+        connect(bootstrap, "127.0.0.1", 8080, MAX_RETRY);
     }
 
     public static void connect(Bootstrap bootstrap, String host, int port, int retry) {
