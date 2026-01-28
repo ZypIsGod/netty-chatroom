@@ -32,7 +32,6 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
             LoginRequestPacket loginRequestPacket = (LoginRequestPacket) decodePacket;
             if (valid(loginRequestPacket)) {
                 //校验成功
-                LoginUtil.markAsLogin(ctx.channel());
                 loginResponsePacket.setSuccess(true);
             } else {
                 //校验失败！

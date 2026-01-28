@@ -2,7 +2,9 @@ package com.zyp.demo1;
 
 import com.zyp.demo1.common.Command;
 import com.zyp.demo1.request.LoginRequestPacket;
+import com.zyp.demo1.request.MessageReqeustPacket;
 import com.zyp.demo1.response.LoginResponsePacket;
+import com.zyp.demo1.response.MessageRsponsePacket;
 import com.zyp.demo1.serializer.JSONSerializer;
 import com.zyp.demo1.serializer.Serializer;
 import io.netty.buffer.ByteBuf;
@@ -61,6 +63,10 @@ public class PacketCodeC {
             return LoginRequestPacket.class;
         } else if (common == Command.LOGIN_RESPONSE) {
             return LoginResponsePacket.class;
+        } else if (common == Command.MESSAGE_RESPONSE) {
+            return MessageRsponsePacket.class;
+        } else if (common == Command.MESSAGE_REQEUST) {
+            return MessageReqeustPacket.class;
         }
         return null;
     }

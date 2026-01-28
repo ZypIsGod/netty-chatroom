@@ -5,6 +5,7 @@ import com.zyp.demo1.request.LoginRequestPacket;
 import com.zyp.demo1.PacketCodeC;
 import com.zyp.demo1.response.LoginResponsePacket;
 import com.zyp.demo1.response.MessageRsponsePacket;
+import com.zyp.demo1.tools.LoginUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelHandlerContext;
@@ -29,6 +30,7 @@ public class FirstCilentHandler extends ChannelInboundHandlerAdapter {
             LoginResponsePacket loginResponsePacket = (LoginResponsePacket) decodePacket;
 
             if (loginResponsePacket.isSuccess()) {
+                LoginUtil.markAsLogin(ctx.channel());
                 System.out.println(new Date() + ":客户端登录成功");
             } else {
                 System.out.println(new Date() + ":客户端登录失败，原因：" + loginResponsePacket.getReason());

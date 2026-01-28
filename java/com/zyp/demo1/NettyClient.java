@@ -42,22 +42,26 @@ public class NettyClient {
 
     public static void connect(Bootstrap bootstrap, String host, int port, int retry) {
         AtomicInteger retry0 = new AtomicInteger(retry);
-        bootstrap.connect(host, port).addListener(future -> {
-            if (future.isSuccess()) {
-                System.out.println("连接成功");
-            } else if (retry0.get() == 0) {
-                System.out.println("重试完成");
-            } else {
-                int order = (MAX_RETRY - retry0.get()) + 1;
-                System.out.println(new Date() + "连接失败，重试中 第" + order + "次重连....");
-                int delay = 1 << order;
-                int andDecrement = retry0.decrementAndGet();
-                bootstrap.config().group().schedule(() -> connect(bootstrap, host, port, andDecrement), delay, TimeUnit.SECONDS);
-            }
-        }).addListener(future -> {
-            Channel channel = ((ChannelFuture) future).channel();
-            startConsoleThread(channel);
-        });
+        bootstrap.connect(host, port)
+                .addListener(future -> {
+                    if (future.isSuccess()) {
+                        System.out.println("连接成功");
+                    } else if (retry0.get() == 0) {
+                        System.out.println("重试完成");
+                    } else {
+                        int order = (MAX_RETRY - retry0.get()) + 1;
+                        System.out.println(new Date() + "连接失败，重试中 第" + order + "次重连....");
+                        int delay = 1 << order;
+                        int andDecrement = retry0.decrementAndGet();
+                        bootstrap.config().group().schedule(() -> connect(bootstrap, host, port, andDecrement), delay, TimeUnit.SECONDS);
+                    }
+                })
+                .addListener(future -> {
+                    if (future.isSuccess()) {
+                        Channel channel = ((ChannelFuture) future).channel();
+                        startConsoleThread(channel);
+                    }
+                });
     }
 
     private static void startConsoleThread(Channel channel) {
