@@ -1,8 +1,7 @@
 package com.zyp.demo1.request;
 
 import com.zyp.demo1.common.Command;
-import com.zyp.demo1.Packet;
-import io.netty.util.AttributeKey;
+import com.zyp.demo1.common.Packet;
 import lombok.Data;
 
 

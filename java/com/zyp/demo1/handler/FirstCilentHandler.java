@@ -1,8 +1,8 @@
 package com.zyp.demo1.handler;
 
-import com.zyp.demo1.Packet;
+import com.zyp.demo1.common.Packet;
 import com.zyp.demo1.request.LoginRequestPacket;
-import com.zyp.demo1.PacketCodeC;
+import com.zyp.demo1.common.PacketCodeC;
 import com.zyp.demo1.response.LoginResponsePacket;
 import com.zyp.demo1.response.MessageRsponsePacket;
 import com.zyp.demo1.tools.LoginUtil;

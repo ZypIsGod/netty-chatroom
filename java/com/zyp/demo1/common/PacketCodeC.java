@@ -1,6 +1,5 @@
-package com.zyp.demo1;
+package com.zyp.demo1.common;
 
-import com.zyp.demo1.common.Command;
 import com.zyp.demo1.request.LoginRequestPacket;
 import com.zyp.demo1.request.MessageReqeustPacket;
 import com.zyp.demo1.response.LoginResponsePacket;

@@ -1,4 +1,4 @@
-package com.zyp.demo1;
+package com.zyp.demo1.common;
 
 import io.netty.buffer.ByteBuf;
 import lombok.Data;

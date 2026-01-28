@@ -1,7 +1,7 @@
 package com.zyp.demo1.response;
 
 import com.zyp.demo1.common.Command;
-import com.zyp.demo1.Packet;
+import com.zyp.demo1.common.Packet;
 import lombok.Data;
 
 /**
