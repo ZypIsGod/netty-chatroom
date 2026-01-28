@@ -1,5 +1,8 @@
 package com.zyp.demo1.handler;
 
+import com.zyp.demo1.LoginRequestPacket;
+import com.zyp.demo1.Packet;
+import com.zyp.demo1.PacketCodeC;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -17,10 +20,18 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf byteBuf = (ByteBuf)msg;
-        System.out.println(new Date()+": 服务端读取数据-->"+byteBuf.toString(StandardCharsets.UTF_8));
+        ByteBuf byteBuf = (ByteBuf) msg;
+        Packet decodePacket = PacketCodeC.INSTANCE.decode(byteBuf);
 
-        ctx.channel().writeAndFlush(getByteBuf(ctx));
+        if (decodePacket instanceof LoginRequestPacket) {
+            LoginRequestPacket loginRequestPacket = (LoginRequestPacket) decodePacket;
+
+            if(valid(loginRequestPacket)) {
+                //校验成功
+            } else {
+                //校验失败！
+            }
+        }
 
     }
 
@@ -30,5 +41,9 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
         byte[] bytes = "服务端给你数据".getBytes(StandardCharsets.UTF_8);
         buffer.writeBytes(bytes);
         return buffer;
+    }
+
+    private boolean valid(LoginRequestPacket loginRequestPacket) {
+        return true;
     }
 }

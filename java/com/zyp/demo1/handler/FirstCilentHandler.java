@@ -1,12 +1,16 @@
 package com.zyp.demo1.handler;
 
+import com.zyp.demo1.LoginRequestPacket;
+import com.zyp.demo1.PacketCodeC;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @Date:2026/1/27
@@ -17,10 +21,14 @@ public class FirstCilentHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
-        ByteBuf byteBuf =  (ByteBuf)msg;
-
-        System.out.println(new Date()+": 客户端读取数据-->"+byteBuf.toString(StandardCharsets.UTF_8));
+        System.out.println(new Date()+": 客户端登录中....");
+        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+        loginRequestPacket.setUserId(UUID.randomUUID().toString());
+        loginRequestPacket.setUsername("flash");
+        loginRequestPacket.setPassword("pwd");
+        ByteBufAllocator alloc = ctx.alloc();
+        ByteBuf encode = PacketCodeC.INSTANCE.encode(alloc, loginRequestPacket);
+        ctx.channel().writeAndFlush(encode);
     }
 
     @Override
