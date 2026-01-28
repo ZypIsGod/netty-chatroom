@@ -1,5 +1,7 @@
-package com.zyp.demo1;
+package com.zyp.demo1.request;
 
+import com.zyp.demo1.Command;
+import com.zyp.demo1.Packet;
 import lombok.Data;
 
 /**
@@ -8,7 +10,7 @@ import lombok.Data;
  * @Description:
  */
 @Data
-public class LoginRequestPacket extends Packet{
+public class LoginRequestPacket extends Packet {
     private String userId;
 
     private String username;

@@ -1,15 +1,14 @@
 package com.zyp.demo1.handler;
 
-import com.zyp.demo1.LoginRequestPacket;
+import com.zyp.demo1.request.LoginRequestPacket;
 import com.zyp.demo1.Packet;
 import com.zyp.demo1.PacketCodeC;
+import com.zyp.demo1.response.LoginResponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 
 /**
  * @Date:2026/1/27
@@ -22,17 +21,19 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf byteBuf = (ByteBuf) msg;
         Packet decodePacket = PacketCodeC.INSTANCE.decode(byteBuf);
-
+        LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
         if (decodePacket instanceof LoginRequestPacket) {
             LoginRequestPacket loginRequestPacket = (LoginRequestPacket) decodePacket;
-
-            if(valid(loginRequestPacket)) {
+            if (valid(loginRequestPacket)) {
                 //校验成功
+                loginResponsePacket.setSuccess(true);
             } else {
                 //校验失败！
+                loginResponsePacket.setSuccess(false);
             }
         }
-
+        ByteBuf encodeByte = PacketCodeC.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
+        ctx.channel().writeAndFlush(encodeByte);
     }
 
 
