@@ -1,4 +1,4 @@
-package com.zyp.demo1.tools;
+package com.zyp.demo1.serializer;
 
 import com.alibaba.fastjson.JSON;
 
