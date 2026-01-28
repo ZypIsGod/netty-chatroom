@@ -7,7 +7,8 @@ package com.zyp.demo1;
  */
 public interface Command {
 
-    Byte LOGIN_REQUEST = 1;
-
-    Byte LOGIN_RESPONSE = 2;
+    byte LOGIN_REQUEST = 1;
+    byte LOGIN_RESPONSE = 2;
+    byte MESSAGE_REQEUST = 3;
+    byte MESSAGE_RESPONSE = 4;
 }
