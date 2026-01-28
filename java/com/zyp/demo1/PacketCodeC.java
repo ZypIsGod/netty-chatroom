@@ -1,5 +1,6 @@
 package com.zyp.demo1;
 
+import com.zyp.demo1.common.Command;
 import com.zyp.demo1.request.LoginRequestPacket;
 import com.zyp.demo1.response.LoginResponsePacket;
 import com.zyp.demo1.serializer.JSONSerializer;

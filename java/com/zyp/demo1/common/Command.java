@@ -1,4 +1,4 @@
-package com.zyp.demo1;
+package com.zyp.demo1.common;
 
 /**
  * @Date:2026/1/28

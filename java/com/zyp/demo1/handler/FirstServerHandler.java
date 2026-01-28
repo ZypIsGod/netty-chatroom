@@ -4,6 +4,7 @@ import com.zyp.demo1.request.LoginRequestPacket;
 import com.zyp.demo1.Packet;
 import com.zyp.demo1.PacketCodeC;
 import com.zyp.demo1.response.LoginResponsePacket;
+import com.zyp.demo1.tools.LoginUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -28,6 +29,7 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
             LoginRequestPacket loginRequestPacket = (LoginRequestPacket) decodePacket;
             if (valid(loginRequestPacket)) {
                 //校验成功
+                LoginUtil.markAsLogin(ctx.channel());
                 loginResponsePacket.setSuccess(true);
             } else {
                 //校验失败！

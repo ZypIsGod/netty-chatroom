@@ -1,6 +1,6 @@
 package com.zyp.demo1.request;
 
-import com.zyp.demo1.Command;
+import com.zyp.demo1.common.Command;
 import com.zyp.demo1.Packet;
 import lombok.Data;
 
