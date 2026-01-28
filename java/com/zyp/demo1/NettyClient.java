@@ -1,13 +1,19 @@
 package com.zyp.demo1;
 
 import com.zyp.demo1.handler.FirstCilentHandler;
+import com.zyp.demo1.request.MessageReqeustPacket;
+import com.zyp.demo1.tools.LoginUtil;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.util.Date;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -48,6 +54,27 @@ public class NettyClient {
                 int andDecrement = retry0.decrementAndGet();
                 bootstrap.config().group().schedule(() -> connect(bootstrap, host, port, andDecrement), delay, TimeUnit.SECONDS);
             }
+        }).addListener(future -> {
+            Channel channel = ((ChannelFuture) future).channel();
+            startConsoleThread(channel);
         });
+    }
+
+    private static void startConsoleThread(Channel channel) {
+        new Thread(() -> {
+            while (!Thread.interrupted()) {
+                if (LoginUtil.hasLogin(channel)) {
+                    System.out.println("输入消息发生至服务端：");
+                    Scanner sc = new Scanner(System.in);
+                    String line = sc.nextLine();
+
+                    MessageReqeustPacket messageReqeustPacket = new MessageReqeustPacket();
+                    messageReqeustPacket.setMessage(line);
+                    ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), messageReqeustPacket);
+                    channel.writeAndFlush(byteBuf);
+                }
+            }
+
+        }).start();
     }
 }

@@ -3,7 +3,9 @@ package com.zyp.demo1.handler;
 import com.zyp.demo1.request.LoginRequestPacket;
 import com.zyp.demo1.Packet;
 import com.zyp.demo1.PacketCodeC;
+import com.zyp.demo1.request.MessageReqeustPacket;
 import com.zyp.demo1.response.LoginResponsePacket;
+import com.zyp.demo1.response.MessageRsponsePacket;
 import com.zyp.demo1.tools.LoginUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -21,10 +23,11 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println(new Date()+": 服务端接收客户端数据");
+        System.out.println(new Date() + ": 服务端接收客户端数据");
         ByteBuf byteBuf = (ByteBuf) msg;
         Packet decodePacket = PacketCodeC.INSTANCE.decode(byteBuf);
         LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
+        ByteBuf encodeByte = null;
         if (decodePacket instanceof LoginRequestPacket) {
             LoginRequestPacket loginRequestPacket = (LoginRequestPacket) decodePacket;
             if (valid(loginRequestPacket)) {
@@ -35,8 +38,16 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
                 //校验失败！
                 loginResponsePacket.setSuccess(false);
             }
+            encodeByte = PacketCodeC.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
+        } else if (decodePacket instanceof MessageReqeustPacket) {
+
+            MessageReqeustPacket messageReqeustPacket = ((MessageReqeustPacket) decodePacket);
+            System.out.println(new Date() + ":收到客户端消息：" + messageReqeustPacket.getMessage());
+            MessageRsponsePacket messageRsponsePacket = new MessageRsponsePacket();
+            messageRsponsePacket.setMessage("服务端回复：【" + messageReqeustPacket.getMessage() + "】");
+            encodeByte = PacketCodeC.INSTANCE.encode(ctx.alloc(), messageRsponsePacket);
         }
-        ByteBuf encodeByte = PacketCodeC.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
+
         ctx.channel().writeAndFlush(encodeByte);
     }
 
