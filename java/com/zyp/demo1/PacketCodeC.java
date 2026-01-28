@@ -1,6 +1,7 @@
 package com.zyp.demo1;
 
 import com.zyp.demo1.request.LoginRequestPacket;
+import com.zyp.demo1.response.LoginResponsePacket;
 import com.zyp.demo1.serializer.JSONSerializer;
 import com.zyp.demo1.serializer.Serializer;
 import io.netty.buffer.ByteBuf;
@@ -55,7 +56,12 @@ public class PacketCodeC {
 
     public Class<? extends Packet> getRequstType(byte common) {
 
-        return LoginRequestPacket.class;
+        if (common == Command.LOGIN_REQUEST) {
+            return LoginRequestPacket.class;
+        } else if (common == Command.LOGIN_RESPONSE) {
+            return LoginResponsePacket.class;
+        }
+        return null;
     }
 
     public Serializer getSerializer(byte serializerAlgorithm) {

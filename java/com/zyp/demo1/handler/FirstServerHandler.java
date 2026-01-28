@@ -9,6 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 /**
  * @Date:2026/1/27
@@ -19,6 +20,7 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println(new Date()+": 服务端接收客户端数据");
         ByteBuf byteBuf = (ByteBuf) msg;
         Packet decodePacket = PacketCodeC.INSTANCE.decode(byteBuf);
         LoginResponsePacket loginResponsePacket = new LoginResponsePacket();

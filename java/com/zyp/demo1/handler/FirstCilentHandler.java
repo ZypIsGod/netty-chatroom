@@ -1,7 +1,9 @@
 package com.zyp.demo1.handler;
 
+import com.zyp.demo1.Packet;
 import com.zyp.demo1.request.LoginRequestPacket;
 import com.zyp.demo1.PacketCodeC;
+import com.zyp.demo1.response.LoginResponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelHandlerContext;
@@ -20,7 +22,22 @@ public class FirstCilentHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println(new Date()+": 客户端登录中....");
+        ByteBuf byteBuf = (ByteBuf) msg;
+        Packet decodePacket = PacketCodeC.INSTANCE.decode(byteBuf);
+        if (decodePacket instanceof LoginResponsePacket) {
+            LoginResponsePacket loginResponsePacket = (LoginResponsePacket) decodePacket;
+
+            if (loginResponsePacket.isSuccess()) {
+                System.out.println(new Date() + ":客户端登录成功");
+            } else {
+                System.out.println(new Date() + ":客户端登录失败，原因：" + loginResponsePacket.getReason());
+            }
+        }
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(new Date() + ": 客户端登录中....");
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
         loginRequestPacket.setUserId(UUID.randomUUID().toString());
         loginRequestPacket.setUsername("flash");
@@ -28,13 +45,6 @@ public class FirstCilentHandler extends ChannelInboundHandlerAdapter {
         ByteBufAllocator alloc = ctx.alloc();
         ByteBuf encode = PacketCodeC.INSTANCE.encode(alloc, loginRequestPacket);
         ctx.channel().writeAndFlush(encode);
-    }
-
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(new Date() + "客户端写出数据...");
-        ByteBuf buffer = getByteBuf(ctx);
-        ctx.channel().writeAndFlush(buffer);
     }
 
     private ByteBuf getByteBuf(ChannelHandlerContext ctx) {
