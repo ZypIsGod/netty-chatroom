@@ -4,6 +4,7 @@ import com.zyp.demo1.Packet;
 import com.zyp.demo1.request.LoginRequestPacket;
 import com.zyp.demo1.PacketCodeC;
 import com.zyp.demo1.response.LoginResponsePacket;
+import com.zyp.demo1.response.MessageRsponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelHandlerContext;
@@ -32,6 +33,10 @@ public class FirstCilentHandler extends ChannelInboundHandlerAdapter {
             } else {
                 System.out.println(new Date() + ":客户端登录失败，原因：" + loginResponsePacket.getReason());
             }
+        } else if (decodePacket instanceof MessageRsponsePacket) {
+            MessageRsponsePacket messageRsponsePacket = (MessageRsponsePacket) decodePacket;
+            String message = messageRsponsePacket.getMessage();
+            System.out.println(new Date() + ":服务端回复：" + message);
         }
     }
 
