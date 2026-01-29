@@ -38,6 +38,7 @@ public class NettyServer {
                         nioSocketChannel.pipeline().addLast(new ServerInHandlerC());
                         nioSocketChannel.pipeline().addLast(new FirstServerHandler());
 
+
                         nioSocketChannel.pipeline().addLast(new ServerOutHandlerA());
                         nioSocketChannel.pipeline().addLast(new ServerOutHandlerB());
                         nioSocketChannel.pipeline().addLast(new ServerOutHandlerC());
