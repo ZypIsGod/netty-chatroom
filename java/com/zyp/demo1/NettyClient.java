@@ -1,7 +1,11 @@
 package com.zyp.demo1;
 
 import com.zyp.demo1.common.PacketCodeC;
-import com.zyp.demo1.handler.FirstCilentHandler;
+import com.zyp.demo1.common.PacketDecoder;
+import com.zyp.demo1.common.PacketEndcoder;
+import com.zyp.demo1.handler.client.FirstCilentHandler;
+import com.zyp.demo1.handler.client.LoginResponsePacketHandler;
+import com.zyp.demo1.handler.client.MessageRsponsePacketHandler;
 import com.zyp.demo1.request.MessageReqeustPacket;
 import com.zyp.demo1.tools.LoginUtil;
 import io.netty.bootstrap.Bootstrap;
@@ -35,7 +39,12 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
-                        socketChannel.pipeline().addLast(new FirstCilentHandler());
+                        socketChannel.pipeline()
+                                .addLast(new PacketDecoder())
+                                .addLast(new LoginResponsePacketHandler())
+                                .addLast(new MessageRsponsePacketHandler())
+                                .addLast(new PacketEndcoder())
+                        ;
                     }
                 });
         connect(bootstrap, "127.0.0.1", 8080, MAX_RETRY);

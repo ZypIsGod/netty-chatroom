@@ -1,4 +1,4 @@
-package com.zyp.demo1.handler;
+package com.zyp.demo1.handler.client;
 
 import com.zyp.demo1.common.Packet;
 import com.zyp.demo1.request.LoginRequestPacket;

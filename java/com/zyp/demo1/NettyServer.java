@@ -1,12 +1,9 @@
 package com.zyp.demo1;
 
-import com.zyp.demo1.handler.FirstServerHandler;
-import com.zyp.demo1.handler.server.in.ServerInHandlerA;
-import com.zyp.demo1.handler.server.in.ServerInHandlerB;
-import com.zyp.demo1.handler.server.in.ServerInHandlerC;
-import com.zyp.demo1.handler.server.out.ServerOutHandlerA;
-import com.zyp.demo1.handler.server.out.ServerOutHandlerB;
-import com.zyp.demo1.handler.server.out.ServerOutHandlerC;
+import com.zyp.demo1.common.PacketDecoder;
+import com.zyp.demo1.common.PacketEndcoder;
+import com.zyp.demo1.handler.server.LoginRequestPacketHandler;
+import com.zyp.demo1.handler.server.MessageReqeustPacketHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -33,15 +30,10 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
-                        nioSocketChannel.pipeline().addLast(new ServerInHandlerA());
-                        nioSocketChannel.pipeline().addLast(new ServerInHandlerB());
-                        nioSocketChannel.pipeline().addLast(new ServerInHandlerC());
-                        nioSocketChannel.pipeline().addLast(new FirstServerHandler());
-
-
-                        nioSocketChannel.pipeline().addLast(new ServerOutHandlerA());
-                        nioSocketChannel.pipeline().addLast(new ServerOutHandlerB());
-                        nioSocketChannel.pipeline().addLast(new ServerOutHandlerC());
+                        nioSocketChannel.pipeline().addLast(new PacketDecoder());
+                        nioSocketChannel.pipeline().addLast(new LoginRequestPacketHandler());
+                        nioSocketChannel.pipeline().addLast(new MessageReqeustPacketHandler());
+                        nioSocketChannel.pipeline().addLast(new PacketEndcoder());
 
                     }
                 });
