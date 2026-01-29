@@ -1,6 +1,12 @@
 package com.zyp.demo1;
 
 import com.zyp.demo1.handler.FirstServerHandler;
+import com.zyp.demo1.handler.server.in.ServerInHandlerA;
+import com.zyp.demo1.handler.server.in.ServerInHandlerB;
+import com.zyp.demo1.handler.server.in.ServerInHandlerC;
+import com.zyp.demo1.handler.server.out.ServerOutHandlerA;
+import com.zyp.demo1.handler.server.out.ServerOutHandlerB;
+import com.zyp.demo1.handler.server.out.ServerOutHandlerC;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -15,7 +21,7 @@ import io.netty.util.concurrent.GenericFutureListener;
  * @Author：zyp
  * @Description:
  */
-public class NettyServer01 {
+public class NettyServer {
 
     public static void main(String[] args) {
         NioEventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -27,7 +33,14 @@ public class NettyServer01 {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
+                        nioSocketChannel.pipeline().addLast(new ServerInHandlerA());
+                        nioSocketChannel.pipeline().addLast(new ServerInHandlerB());
+                        nioSocketChannel.pipeline().addLast(new ServerInHandlerC());
                         nioSocketChannel.pipeline().addLast(new FirstServerHandler());
+
+                        nioSocketChannel.pipeline().addLast(new ServerOutHandlerA());
+                        nioSocketChannel.pipeline().addLast(new ServerOutHandlerB());
+                        nioSocketChannel.pipeline().addLast(new ServerOutHandlerC());
 
                     }
                 });
