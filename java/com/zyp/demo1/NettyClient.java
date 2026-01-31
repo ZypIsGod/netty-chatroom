@@ -1,5 +1,7 @@
 package com.zyp.demo1;
 
+import com.zyp.demo1.common.ConsoleManager;
+import com.zyp.demo1.common.LoginConsoleCommand;
 import com.zyp.demo1.common.PacketCodeC;
 import com.zyp.demo1.common.PacketDecoder;
 import com.zyp.demo1.common.PacketEndcoder;
@@ -78,29 +80,15 @@ public class NettyClient {
     }
 
     private static void startConsoleThread(Channel channel) {
+        ConsoleManager consoleManager = new ConsoleManager();
+        Scanner scanner = new Scanner(System.in);
         new Thread(() -> {
             while (!Thread.interrupted()) {
                 if (LoginUtil.hasLogin(channel)) {
-                    Scanner sc = new Scanner(System.in);
-                    System.out.println("输入UserId发送消息：");
-                    String userId = sc.nextLine();
-                    System.out.println("输入消息发送消息：");
-                    String line = sc.nextLine();
-                    MessageReqeustPacket messageReqeustPacket = new MessageReqeustPacket();
-                    messageReqeustPacket.setMessage(line);
-                    messageReqeustPacket.setToUserId(userId);
-                    ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), messageReqeustPacket);
-                    channel.writeAndFlush(byteBuf);
+                    consoleManager.exec(scanner, channel);
                 } else {
-                    //登录
-                    System.out.println("请先登录：");
-                    Scanner sc = new Scanner(System.in);
-                    String userName = sc.nextLine();
-                    LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-                    loginRequestPacket.setUsername(userName);
-                    loginRequestPacket.setPassword("pwd");
-                    ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), loginRequestPacket);
-                    channel.writeAndFlush(byteBuf);
+                    LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
+                    loginConsoleCommand.exec(scanner, channel);
                 }
                 try {
                     Thread.sleep(1000L);
