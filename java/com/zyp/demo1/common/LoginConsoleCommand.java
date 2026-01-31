@@ -16,7 +16,7 @@ public class LoginConsoleCommand implements ConsoleCommand {
     public void exec(Scanner sc, Channel channel) {
         //登录
         System.out.println("请先登录：");
-        String userName = sc.nextLine();
+        String userName = sc.next();
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
         loginRequestPacket.setUsername(userName);
         loginRequestPacket.setPassword("pwd");

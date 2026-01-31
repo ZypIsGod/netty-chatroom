@@ -15,9 +15,9 @@ public class SendToUserConsoleCommand implements ConsoleCommand {
     @Override
     public void exec(Scanner sc, Channel channel) {
         System.out.println("输入UserId发送消息：");
-        String userId = sc.nextLine();
+        String userId = sc.next();
         System.out.println("输入消息发送消息：");
-        String line = sc.nextLine();
+        String line = sc.next();
         MessageReqeustPacket messageReqeustPacket = new MessageReqeustPacket();
         messageReqeustPacket.setMessage(line);
         messageReqeustPacket.setToUserId(userId);

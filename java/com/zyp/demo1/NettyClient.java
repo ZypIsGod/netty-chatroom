@@ -5,6 +5,7 @@ import com.zyp.demo1.common.LoginConsoleCommand;
 import com.zyp.demo1.common.PacketCodeC;
 import com.zyp.demo1.common.PacketDecoder;
 import com.zyp.demo1.common.PacketEndcoder;
+import com.zyp.demo1.handler.client.CreateGroupResponseHandler;
 import com.zyp.demo1.handler.client.FirstCilentHandler;
 import com.zyp.demo1.handler.client.LoginResponsePacketHandler;
 import com.zyp.demo1.handler.client.MessageRsponsePacketHandler;
@@ -47,6 +48,7 @@ public class NettyClient {
                                 .addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4))
                                 .addLast(new PacketDecoder())
                                 .addLast(new LoginResponsePacketHandler())
+                                .addLast(new CreateGroupResponseHandler())
                                 .addLast(new MessageRsponsePacketHandler())
                                 .addLast(new PacketEndcoder())
                         ;

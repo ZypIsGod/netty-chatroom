@@ -1,7 +1,9 @@
 package com.zyp.demo1.common;
 
+import com.zyp.demo1.request.CreateGroupRequestPacket;
 import com.zyp.demo1.request.LoginRequestPacket;
 import com.zyp.demo1.request.MessageReqeustPacket;
+import com.zyp.demo1.response.CreateGroupResponsePacket;
 import com.zyp.demo1.response.LoginResponsePacket;
 import com.zyp.demo1.response.MessageRsponsePacket;
 import com.zyp.demo1.serializer.JSONSerializer;
@@ -79,7 +81,13 @@ public class PacketCodeC2 {
             return MessageRsponsePacket.class;
         } else if (common == Command.MESSAGE_REQEUST) {
             return MessageReqeustPacket.class;
+        } else if (common == Command.CREATE_GROUP_REQUEST) {
+            return CreateGroupRequestPacket.class;
+        } else if (common == Command.CREATE_GROUP_RESPONSE) {
+            return CreateGroupResponsePacket.class;
         }
+
+
         return null;
     }
 

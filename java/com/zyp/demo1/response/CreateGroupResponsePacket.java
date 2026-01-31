@@ -17,7 +17,11 @@ public class CreateGroupResponsePacket extends Packet {
     /**
      * 拉群
      */
-    private List<String> userList;
+    private List<String> userIdList;
+
+    private List<String> userNameList;
+
+    private Boolean isSuccess;
 
     /**
      * 群组id

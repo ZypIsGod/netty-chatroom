@@ -2,6 +2,7 @@ package com.zyp.demo1;
 
 import com.zyp.demo1.common.PacketDecoder;
 import com.zyp.demo1.common.PacketEndcoder;
+import com.zyp.demo1.handler.server.CreateGroupRequestHandler;
 import com.zyp.demo1.handler.server.LoginRequestPacketHandler;
 import com.zyp.demo1.handler.server.MessageReqeustPacketHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -33,6 +34,7 @@ public class NettyServer {
                         nioSocketChannel.pipeline().addLast(new PacketDecoder());
                         nioSocketChannel.pipeline().addLast(new LoginRequestPacketHandler());
                         nioSocketChannel.pipeline().addLast(new MessageReqeustPacketHandler());
+                        nioSocketChannel.pipeline().addLast(new CreateGroupRequestHandler());
                         nioSocketChannel.pipeline().addLast(new PacketEndcoder());
 
                     }

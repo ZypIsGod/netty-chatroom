@@ -19,9 +19,9 @@ public class CreateGroupConsoleCommand  implements ConsoleCommand{
     @Override
     public void exec(Scanner scanner, Channel channel) {
         System.out.println("输入要被拉群的用户以逗号分割(,)");
-        String s = scanner.nextLine();
+        String s = scanner.next();
         String[] split = s.split(",");
-        if(split == null || split.length <= 0) {
+        if(split == null || split.length == 0) {
             System.out.println("输入有误");
             return;
         }
