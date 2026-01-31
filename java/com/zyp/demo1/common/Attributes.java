@@ -1,5 +1,6 @@
 package com.zyp.demo1.common;
 
+import com.zyp.demo1.pojo.Session;
 import io.netty.util.AttributeKey;
 
 /**
@@ -10,5 +11,8 @@ import io.netty.util.AttributeKey;
 public interface Attributes {
 
     AttributeKey<Boolean> LOGIN = AttributeKey.newInstance("login");
+    AttributeKey<Session> SESSION = AttributeKey.newInstance("session");
     AttributeKey<Boolean> LOGIN2 = AttributeKey.newInstance("login2");
+
+
 }

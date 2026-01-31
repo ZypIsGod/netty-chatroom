@@ -13,7 +13,10 @@ import lombok.Data;
 @Data
 public class MessageReqeustPacket extends Packet {
 
+    private String toUserId;
+
     private String message;
+
     @Override
     public Byte getCommon() {
         return Command.MESSAGE_REQEUST;

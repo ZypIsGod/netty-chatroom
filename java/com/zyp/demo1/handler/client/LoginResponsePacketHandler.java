@@ -29,7 +29,7 @@ public class LoginResponsePacketHandler extends SimpleChannelInboundHandler<Logi
         }
     }
 
-    @Override
+/*    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println(new Date() + ": 客户端登录中....");
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
@@ -39,5 +39,5 @@ public class LoginResponsePacketHandler extends SimpleChannelInboundHandler<Logi
         ByteBufAllocator alloc = ctx.alloc();
         ByteBuf encode = PacketCodeC2.INSTANCE.encode(alloc, loginRequestPacket);
         ctx.channel().writeAndFlush(encode);
-    }
+    }*/
 }
