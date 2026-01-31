@@ -1,4 +1,4 @@
-package com.zyp.demo1.request;
+package com.zyp.demo1.response;
 
 import com.zyp.demo1.common.Command;
 import com.zyp.demo1.common.Packet;
@@ -12,15 +12,20 @@ import java.util.List;
  * @Description:
  */
 @Data
-public class CreateGroupRequestPacket extends Packet {
+public class CreateGroupResponsePacket extends Packet {
 
     /**
      * 拉群
      */
     private List<String> userList;
 
+    /**
+     * 群组id
+     */
+    private String groupId;
+
     @Override
     public Byte getCommon() {
-        return Command.CREATE_GROUP_REQUEST;
+        return Command.CREATE_GROUP_RESPONSE;
     }
 }
