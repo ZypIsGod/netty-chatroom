@@ -1,5 +1,6 @@
 package com.zyp.demo1.handler.client;
 
+import com.zyp.demo1.common.Attributes;
 import com.zyp.demo1.common.PacketCodeC;
 import com.zyp.demo1.common.PacketCodeC2;
 import com.zyp.demo1.request.LoginRequestPacket;
@@ -9,6 +10,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.AttributeKey;
 
 import java.util.Date;
 import java.util.UUID;
@@ -23,6 +25,7 @@ public class LoginResponsePacketHandler extends SimpleChannelInboundHandler<Logi
     protected void channelRead0(ChannelHandlerContext ctx, LoginResponsePacket msg) throws Exception {
         if (msg.isSuccess()) {
             LoginUtil.markAsLogin(ctx.channel());
+            ctx.channel().attr(Attributes.USER_ID).set(msg.getUserId());
             System.out.println(new Date() + ":客户端登录成功");
         } else {
             System.out.println(new Date() + ":客户端登录失败，原因：" + msg.getReason());

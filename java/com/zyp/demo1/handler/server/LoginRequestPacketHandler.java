@@ -35,6 +35,7 @@ public class LoginRequestPacketHandler extends SimpleChannelInboundHandler<Login
         Session session = new Session();
         session.setUserId(UUID.randomUUID().toString());
         session.setUserName(msg.getUsername());
+        loginResponsePacket.setUserId(session.getUserId());
         SessionUtil.bindSession(session,ctx.channel());
         System.out.println(new Date()+":登录信息："+ JSON.toJSONString(session));
         encodeByte = PacketCodeC2.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
